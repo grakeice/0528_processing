@@ -1,7 +1,6 @@
 import HtmlWebpackPlugin from "html-webpack-plugin";
 import MiniCssExtractPlugin from "mini-css-extract-plugin";
 import path from "path";
-import CleanWebpackPlugin from "clean-webpack-plugin";
 
 export default {
 	entry: {
@@ -19,22 +18,12 @@ export default {
 				exclude: /node_modules/,
 			},
 			{
-				test: /\.(sa|sc|c)ss$/, // 対象にするファイルを指定
-				use: [
-					MiniCssExtractPlugin.loader, // JSとCSSを別々に出力する
-					"css-loader",
-					"sass-loader",
-					// 下から順にコンパイル処理が実行されるので、記入順序に注意
-				],
+				test: /\.(sa|sc|c)ss$/,
+				use: [MiniCssExtractPlugin.loader, "css-loader", "sass-loader"],
 			},
 		],
 	},
 	plugins: [
-		// new CleanWebpackPlugin({
-		// 	cleanOnceBeforeBuildPatterns: [
-		// 		"**/*",
-		// 	],
-		// }),
 		new HtmlWebpackPlugin({
 			template: "./src/index.html",
 		}),
