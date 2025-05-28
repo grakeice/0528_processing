@@ -47,6 +47,8 @@ export default class ParticleRenderer {
 					if (isOnField) {
 						this.draw(p, particle);
 						nextParticles.push(particle);
+					} else {
+						World.remove(world, particle.body);
 					}
 				}
 				this.particles = nextParticles;
