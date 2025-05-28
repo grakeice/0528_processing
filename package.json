@@ -1,4 +1,11 @@
 {
+	"name": "0528_processing",
+	"description": "5月28 日のメディア表現基礎の授業で Processing を取り扱ったので、授業内容を少し応用してみました。",
+	"license": "MIT",
+	"version": "1.0.0",
+	"author": {
+		"name": "grakeice"
+	},
 	"devDependencies": {
 		"@types/matter-js": "^0.19.8",
 		"@types/p5": "^1.7.6",
