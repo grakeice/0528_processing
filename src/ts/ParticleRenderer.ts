@@ -74,6 +74,6 @@ export default class ParticleRenderer {
 }
 declare global {
 	interface WindowEventMap {
-		"canvas-updated": CustomEvent<{ particles: Set<IParticle> }>;
+		"canvas-updated": CustomEvent<{ readonly particles: Set<IParticle> }>;
 	}
 }
