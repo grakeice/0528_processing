@@ -4,13 +4,17 @@ import { Bodies, World, Engine, Runner } from "matter-js";
 
 export default class ParticleRenderer {
 	particles: Set<IParticle>;
-	constructor(target?: p5.Element | string | object, onDraw?: Function) {
+	constructor(
+		canvasWidth: number,
+		canvasHeight: number,
+		target?: p5.Element | string | object
+	) {
 		this.particles = new Set();
 		const sketch = (p: p5) => {
 			const engine = Engine.create();
 			const world = engine.world;
 			p.setup = () => {
-				const canvas = p.createCanvas(500, 500);
+				const canvas = p.createCanvas(canvasWidth, canvasHeight);
 				if (target) {
 					canvas.parent(target);
 				}
@@ -23,7 +27,13 @@ export default class ParticleRenderer {
 				World.add(world, ground);
 			};
 			p.draw = () => {
-				if (onDraw) onDraw();
+				window.dispatchEvent(
+					new CustomEvent("canvas-updated", {
+						detail: {
+							particles: this.particles,
+						},
+					})
+				);
 				p.background(255);
 				Engine.update(engine);
 				if (p.mouseIsPressed) {
@@ -44,7 +54,7 @@ export default class ParticleRenderer {
 						0 <= particle.y + particle.diameter &&
 						particle.y - particle.diameter <= p.height;
 					if (isOnField) {
-						this.draw(p, particle);
+						this.drawParticle(p, particle);
 					} else {
 						World.remove(world, particle.body);
 						this.particles.delete(particle);
@@ -54,11 +64,16 @@ export default class ParticleRenderer {
 		};
 		new p5(sketch);
 	}
-	private draw(p: p5, particle: IParticle) {
+	private drawParticle(p: p5, particle: IParticle) {
 		p.push();
 		p.fill(particle.color);
 		p.noStroke();
 		p.circle(particle.x, particle.y, particle.diameter);
 		p.pop();
+	}
+}
+declare global {
+	interface WindowEventMap {
+		"canvas-updated": CustomEvent<{ particles: Set<IParticle> }>;
 	}
 }
