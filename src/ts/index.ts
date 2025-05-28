@@ -6,11 +6,13 @@ const field = new ParticleRenderer("#field", () => {
 	const displayMaxBallCount = document.getElementById("display-max-ball-count");
 	const particlesCount = field.particles.length;
 	if (displayBallCount) {
-		displayBallCount.textContent = particlesCount.toString();
+		displayBallCount.textContent = particlesCount
+			.toString()
+			.padStart(3, "0");
 	}
 	if (displayMaxBallCount) {
 		if (Number(displayMaxBallCount.textContent) < particlesCount) {
-			displayMaxBallCount.textContent = particlesCount.toString();
+			displayMaxBallCount.textContent = particlesCount.toString().padStart(3, "0");
 		}
 	}
 });
