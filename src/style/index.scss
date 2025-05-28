@@ -18,6 +18,8 @@ body {
 	text-align: right;
 	margin: auto;
 	font-family: monospace;
+	-webkit-user-select: none;
+	user-select: none;
 }
 .counter-field {
 	font-size:x-large;
