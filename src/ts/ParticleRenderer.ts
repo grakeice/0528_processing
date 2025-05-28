@@ -5,35 +5,26 @@ import { IParticle } from "./IParticle";
 
 export default class ParticleRenderer {
 	particles: IParticle[];
-	constructor(target?: p5.Element | string | object) {
+	constructor(target?: p5.Element | string | object, onDraw?: Function) {
 		this.particles = [];
 		const sketch = (p: p5) => {
 			const engine = Engine.create();
 			const world = engine.world;
 			p.setup = () => {
-				const canvas = p.createCanvas(p.windowWidth, p.windowHeight);
+				const canvas = p.createCanvas(500, 500);
 				if (target) {
 					canvas.parent(target);
 				}
 				Runner.run(engine);
-				const ground = Bodies.rectangle(
-					p.windowWidth / 2,
-					p.windowHeight,
-					p.windowWidth,
-					10,
-					{
-						friction: 0,
-						restitution: 0.95,
-						isStatic: true,
-					}
-				);
+				const ground = Bodies.rectangle(p.width / 2, p.height, p.width, 10, {
+					friction: 0,
+					restitution: 0.95,
+					isStatic: true,
+				});
 				World.add(world, ground);
 			};
 			p.draw = () => {
-				const displayBallCount = document.getElementById("display-ball-count");
-				if (displayBallCount) {
-					displayBallCount.textContent = this.particles.length.toString();
-				}
+				if (onDraw) onDraw();
 				p.background(255);
 				Engine.update(engine);
 				if (p.mouseIsPressed) {
@@ -46,15 +37,29 @@ export default class ParticleRenderer {
 					this.particles.push(particle);
 					World.add(world, particle.body);
 				}
+				const nextParticles: IParticle[] = [];
 				for (const particle of this.particles) {
 					particle.updatePosition();
-					this.draw(p, particle);
+					const isOnField =
+						0 <= particle.x + particle.r &&
+						particle.x - particle.r <= p.width &&
+						0 <= particle.y + particle.r &&
+						particle.y - particle.r <= p.height;
+					if (isOnField) {
+						this.draw(p, particle);
+						nextParticles.push(particle);
+					}
 				}
+				this.particles = nextParticles;
 			};
 		};
 		new p5(sketch);
 	}
 	private draw(p: p5, particle: IParticle) {
+		p.push();
+		p.fill(particle.color);
+		p.noStroke();
 		p.circle(particle.x, particle.y, particle.r);
+		p.pop();
 	}
 }
