@@ -30,7 +30,7 @@ export default class ParticleRenderer {
 					const particle = new Circle({
 						x: p.mouseX,
 						y: p.mouseY,
-						r: p.random(5, 20),
+						diameter: p.random(5, 20),
 						world,
 					});
 					this.particles.push(particle);
@@ -40,10 +40,10 @@ export default class ParticleRenderer {
 				for (const particle of this.particles) {
 					particle.updatePosition();
 					const isOnField =
-						0 <= particle.x + particle.r &&
-						particle.x - particle.r <= p.width &&
-						0 <= particle.y + particle.r &&
-						particle.y - particle.r <= p.height;
+						0 <= particle.x + particle.diameter &&
+						particle.x - particle.diameter <= p.width &&
+						0 <= particle.y + particle.diameter &&
+						particle.y - particle.diameter <= p.height;
 					if (isOnField) {
 						this.draw(p, particle);
 						nextParticles.push(particle);
@@ -58,7 +58,7 @@ export default class ParticleRenderer {
 		p.push();
 		p.fill(particle.color);
 		p.noStroke();
-		p.circle(particle.x, particle.y, particle.r);
+		p.circle(particle.x, particle.y, particle.diameter);
 		p.pop();
 	}
 }

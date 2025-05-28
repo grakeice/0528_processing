@@ -3,7 +3,7 @@ import Matter, { Bodies } from "matter-js";
 export interface IParticle {
 	x: number;
 	y: number;
-	r: number;
+	diameter: number;
 	angle: number;
 	color: string;
 	body: Matter.Body;
@@ -14,7 +14,7 @@ export interface IParticle {
 export class Circle implements IParticle {
 	x: number;
 	y: number;
-	r: number;
+	diameter: number;
 	angle: number;
 	color: string;
 	body: Matter.Body;
@@ -22,17 +22,17 @@ export class Circle implements IParticle {
 	constructor({
 		x,
 		y,
-		r = 10,
+		diameter = 10,
+		angle = 0,
 		color,
 		world,
-		angle = 0,
 	}: {
 		x: number;
 		y: number;
-		world: Matter.World;
-		r?: number;
-		color?: string;
+		diameter?: number;
 		angle?: number;
+		color?: string;
+		world: Matter.World;
 	}) {
 		const generateRandomColor = (): string => {
 			const letters = "0123456789ABCDEF";
@@ -45,15 +45,15 @@ export class Circle implements IParticle {
 
 		this.x = x;
 		this.y = y;
-		this.r = r;
+		this.diameter = diameter;
 		this.angle = angle;
-		this.world = world;
 		this.color = color ?? generateRandomColor();
-		let options = {
+		this.world = world;
+		const options = {
 			friction: 0,
 			restitution: 0.95,
 		};
-		this.body = Bodies.circle(x, y, r / 2, options);
+		this.body = Bodies.circle(x, y, diameter / 2, options);
 	}
 
 	updatePosition() {
