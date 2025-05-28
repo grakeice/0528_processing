@@ -8,6 +8,8 @@ p5.js と Matter.js を使ってフィールド内をクリックしている間
 
 ## 遊び方(ビルド方法)
 
+> **Note:** Node.js v22.15.x 以降が必要です
+
 1. ビルドに必要なパッケージをインストールします
 
    ```shell
@@ -18,4 +20,4 @@ p5.js と Matter.js を使ってフィールド内をクリックしている間
    ```shell
    npm run prod
    ```
-3. `./dist/index.html`を開くと遊べます
+3. `dist/index.html`を開くと遊べます
