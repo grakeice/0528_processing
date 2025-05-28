@@ -4,7 +4,7 @@ import ParticleRenderer from "./ParticleRenderer";
 const field = new ParticleRenderer("#field", () => {
 	const displayBallCount = document.getElementById("display-ball-count");
 	const displayMaxBallCount = document.getElementById("display-max-ball-count");
-	const particlesCount = field.particles.length;
+	const particlesCount = field.particles.size;
 	if (displayBallCount) {
 		displayBallCount.textContent = particlesCount.toString().padStart(3, "0");
 	}

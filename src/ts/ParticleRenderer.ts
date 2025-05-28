@@ -3,9 +3,9 @@ import { IParticle, Circle } from "./Particle";
 import { Bodies, World, Engine, Runner } from "matter-js";
 
 export default class ParticleRenderer {
-	particles: IParticle[];
+	particles: Set<IParticle>;
 	constructor(target?: p5.Element | string | object, onDraw?: Function) {
-		this.particles = [];
+		this.particles = new Set();
 		const sketch = (p: p5) => {
 			const engine = Engine.create();
 			const world = engine.world;
@@ -33,10 +33,9 @@ export default class ParticleRenderer {
 						diameter: p.random(5, 20),
 						world,
 					});
-					this.particles.push(particle);
+					this.particles.add(particle);
 					World.add(world, particle.body);
 				}
-				const nextParticles: IParticle[] = [];
 				for (const particle of this.particles) {
 					particle.updatePosition();
 					const isOnField =
@@ -46,12 +45,11 @@ export default class ParticleRenderer {
 						particle.y - particle.diameter <= p.height;
 					if (isOnField) {
 						this.draw(p, particle);
-						nextParticles.push(particle);
 					} else {
 						World.remove(world, particle.body);
+						this.particles.delete(particle);
 					}
 				}
-				this.particles = nextParticles;
 			};
 		};
 		new p5(sketch);
