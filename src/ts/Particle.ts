@@ -1,5 +1,15 @@
 import Matter, { Bodies } from "matter-js";
-import { IParticle } from "./IParticle";
+
+export interface IParticle {
+	x: number;
+	y: number;
+	r: number;
+	angle: number;
+	color: string;
+	body: Matter.Body;
+	world: Matter.World;
+	updatePosition(): void;
+}
 
 export class Circle implements IParticle {
 	x: number;

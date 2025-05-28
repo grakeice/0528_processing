@@ -1,7 +1,6 @@
 import p5 from "p5";
-import { Circle } from "./Particle";
+import { IParticle, Circle } from "./Particle";
 import { Bodies, World, Engine, Runner } from "matter-js";
-import { IParticle } from "./IParticle";
 
 export default class ParticleRenderer {
 	particles: IParticle[];
