@@ -12,6 +12,15 @@ export interface IParticle {
 }
 
 export class Circle implements IParticle {
+	private static generateRandomColor(): string {
+		const letters = "0123456789ABCDEF";
+		let color = "#";
+		for (let i = 0; i < 6; i++) {
+			color += letters[Math.floor(Math.random() * 16)];
+		}
+		return color;
+	}
+
 	x: number;
 	y: number;
 	diameter: number;
@@ -34,20 +43,11 @@ export class Circle implements IParticle {
 		color?: string;
 		world: Matter.World;
 	}) {
-		const generateRandomColor = (): string => {
-			const letters = "0123456789ABCDEF";
-			let color = "#";
-			for (let i = 0; i < 6; i++) {
-				color += letters[Math.floor(Math.random() * 16)];
-			}
-			return color;
-		};
-
 		this.x = x;
 		this.y = y;
 		this.diameter = diameter;
 		this.angle = angle;
-		this.color = color ?? generateRandomColor();
+		this.color = color ?? Circle.generateRandomColor();
 		this.world = world;
 		const options = {
 			friction: 0,
