@@ -26,5 +26,8 @@
 		"test": "echo \"Error: no test specified\" && exit 1",
 		"dev": "webpack --mode development --watch",
 		"prod": "webpack --mode production"
+	},
+	"dependencies": {
+		"gh-pages": "^6.3.0"
 	}
 }
